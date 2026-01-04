@@ -8,17 +8,17 @@ Simulates multi-store, multi-product inventory operations using a digital twin a
 
 ## Features
 
-- ✅ **Multi-Store Simulation:**
+- **Multi-Store Simulation:**
   - Multiple stores (Store1, Store2, Store3)
   - Multiple products (ProductA, ProductB, ProductC)
   - Date-based simulation
 
-- ✅ **Scenario Testing:**
+- **Scenario Testing:**
   - Normal demand scenarios
   - High demand scenarios (stress testing)
   - Configurable reorder points
 
-- ✅ **Four Types of Analytics:**
+- **Four Types of Analytics:**
   1. **Descriptive Analytics** - What happened?
   2. **Diagnostic Analytics** - Why did it happen?
   3. **Predictive Analytics** - What will happen?
@@ -124,12 +124,12 @@ The CSV file should have the following columns:
 DESCRIPTIVE ANALYTICS - What Happened?
 ============================================================
 
-📊 Total Stockout Days: 36
-📊 Average Stockouts per Day: 0.40
-📊 Average Fill Rate: 98.71%
-📊 Total Sales: 5400.00 units
+Total Stockout Days: 36
+Average Stockouts per Day: 0.40
+Average Fill Rate: 98.71%
+Total Sales: 5400.00 units
 
-📊 Top 5 Stores by Stockouts:
+Top 5 Stores by Stockouts:
   Store3: 36 stockout days
   Store1: 0 stockout days
   Store2: 0 stockout days
