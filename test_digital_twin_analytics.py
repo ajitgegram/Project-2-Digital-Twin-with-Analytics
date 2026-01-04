@@ -86,10 +86,10 @@ def test_analytics():
     # Step 1: Generate or load data
     data_path = "data/sample_store_data.csv"
     if not os.path.exists(data_path):
-        print("\n📊 Generating sample data...")
+        print("\n Generating sample data...")
         generate_sample_data(data_path)
     else:
-        print(f"\n📊 Loading data from {data_path}...")
+        print(f"\n Loading data from {data_path}...")
     
     # Step 2: Load data into Digital Twin
     print("\n🔧 Initializing Digital Twin...")
@@ -97,16 +97,16 @@ def test_analytics():
     print(f"  ✓ Loaded {len(twin.store_data)} records")
     
     # Step 3: Run simulation - Normal Demand
-    print("\n⚙️  Running simulation (Normal Demand)...")
+    print("\n  Running simulation (Normal Demand)...")
     print("  Parameters:")
     print("    - Demand multiplier: 1.0 (normal)")
     print("    - Reorder point: 60 units")
     
     result = twin.run_simulation(demand_multiplier=1.0, reorder_point=60.0)
-    print(f"  ✓ Simulation complete: {len(result.store_data)} results")
+    print(f"   Simulation complete: {len(result.store_data)} results")
     
     # Step 4: Apply Analytics
-    print("\n📈 Applying Analytics...")
+    print("\n Applying Analytics...")
     analytics = DigitalTwinAnalytics(result.store_data)
     
     # 4.1 Descriptive Analytics
@@ -122,7 +122,7 @@ def test_analytics():
     analytics.prescriptive(threshold=0.1)
     
     print("\n" + "="*70)
-    print("✓ All analytics tests completed successfully!")
+    print(" All analytics tests completed successfully!")
     print("="*70)
     
     # Step 5: Test with increased demand
@@ -130,14 +130,14 @@ def test_analytics():
     print("TESTING WITH INCREASED DEMAND (50% increase)")
     print("="*70)
     
-    print("\n⚙️  Running simulation with 50% demand increase...")
+    print("\n  Running simulation with 50% demand increase...")
     result2 = twin.run_simulation(demand_multiplier=1.5, reorder_point=60.0)
     analytics2 = DigitalTwinAnalytics(result2.store_data)
     
-    print("\n📊 Descriptive Analytics (High Demand Scenario):")
+    print("\n Descriptive Analytics (High Demand Scenario):")
     analytics2.descriptive()
     
-    print("\n💡 Prescriptive Analytics (High Demand Scenario):")
+    print("\n Prescriptive Analytics (High Demand Scenario):")
     analytics2.prescriptive(threshold=0.15)
     
     # Comparison
@@ -151,15 +151,15 @@ def test_analytics():
     normal_stockouts = result.store_data[stockout_cols].sum().sum() if stockout_cols else 0
     high_stockouts = result2.store_data[stockout_cols2].sum().sum() if stockout_cols2 else 0
     
-    print(f"\n📊 Normal Demand Scenario:")
+    print(f"\n Normal Demand Scenario:")
     print(f"  Total Stockout Days: {normal_stockouts}")
     
-    print(f"\n📊 High Demand Scenario (50% increase):")
+    print(f"\n High Demand Scenario (50% increase):")
     print(f"  Total Stockout Days: {high_stockouts}")
     
     if high_stockouts > normal_stockouts:
         increase = ((high_stockouts - normal_stockouts) / normal_stockouts * 100) if normal_stockouts > 0 else 0
-        print(f"\n  ⚠️  Stockouts increased by {increase:.1f}%")
+        print(f"\n  Stockouts increased by {increase:.1f}%")
         print("  → Recommendation: Increase reorder points or safety stock")
     
     print("\n" + "="*70)
