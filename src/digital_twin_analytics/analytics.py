@@ -37,22 +37,22 @@ class DigitalTwinAnalytics:
         if stockout_cols:
             total_stockouts = self.df[stockout_cols].sum().sum()
             avg_per_day = self.df[stockout_cols].sum(axis=1).mean()
-            print(f"\n📊 Total Stockout Days: {total_stockouts}")
-            print(f"📊 Average Stockouts per Day: {avg_per_day:.2f}")
+            print(f"\n Total Stockout Days: {total_stockouts}")
+            print(f" Average Stockouts per Day: {avg_per_day:.2f}")
         
         # Calculate average fill rate
         if fill_rate_cols:
             avg_fill_rate = self.df[fill_rate_cols].mean().mean()
-            print(f"📊 Average Fill Rate: {avg_fill_rate:.2%}")
+            print(f" Average Fill Rate: {avg_fill_rate:.2%}")
         
         # Calculate total sales
         if sales_cols:
             total_sales = self.df[sales_cols].sum().sum()
-            print(f"📊 Total Sales: {total_sales:.2f} units")
+            print(f" Total Sales: {total_sales:.2f} units")
         
         # Top stores by stockouts
         if stockout_cols and 'store_name' in self.df.columns:
-            print("\n📊 Top 5 Stores by Stockouts:")
+            print("\n Top 5 Stores by Stockouts:")
             store_totals = self.df.groupby('store_name')[stockout_cols].sum().sum(axis=1)
             top_stores = store_totals.sort_values(ascending=False).head()
             for store, count in top_stores.items():
@@ -60,7 +60,7 @@ class DigitalTwinAnalytics:
         
         # Product-level summary
         if stockout_cols:
-            print("\n📊 Stockouts by Product:")
+            print("\n Stockouts by Product:")
             for col in stockout_cols:
                 product = col.replace('stockout_', '')
                 product_stockouts = self.df[col].sum()
@@ -75,20 +75,20 @@ class DigitalTwinAnalytics:
         stockout_cols = [c for c in self.df.columns if c.startswith('stockout_')]
         
         if not stockout_cols or 'date' not in self.df.columns:
-            print("\n🔍 No date-based data available for analysis")
+            print("\n No date-based data available for analysis")
             return
         
         # Find days with most stockouts
         daily_stockouts = self.df.groupby('date')[stockout_cols].sum().sum(axis=1)
         worst_days = daily_stockouts.sort_values(ascending=False).head(5)
         
-        print("\n🔍 Days with Most Stockouts:")
+        print("\n Days with Most Stockouts:")
         for date, count in worst_days.items():
             print(f"  {date}: {count} stockouts")
         
         # Store-level analysis
         if 'store_name' in self.df.columns:
-            print("\n🔍 Store Performance Analysis:")
+            print("\n Store Performance Analysis:")
             store_stockouts = self.df.groupby('store_name')[stockout_cols].sum().sum(axis=1)
             worst_store = store_stockouts.idxmax()
             worst_count = store_stockouts.max()
@@ -100,7 +100,7 @@ class DigitalTwinAnalytics:
                 print(f"  Best performing store: {best_store} ({best_count} stockout days)")
         
         # Product-level analysis
-        print("\n🔍 Product Performance Analysis:")
+        print("\n Product Performance Analysis:")
         for col in stockout_cols:
             product = col.replace('stockout_', '')
             product_stockouts = self.df[col].sum()
@@ -120,7 +120,7 @@ class DigitalTwinAnalytics:
         fill_rate_cols = [c for c in self.df.columns if c.startswith('fill_rate_')]
         
         if not stockout_cols:
-            print("\n🔮 Insufficient data for predictions")
+            print("\n Insufficient data for predictions")
             return
         
         # Analyze each product
@@ -134,11 +134,11 @@ class DigitalTwinAnalytics:
                 high_risk_stores = store_stockouts[store_stockouts > avg_stockouts]
                 
                 if len(high_risk_stores) > 0:
-                    print(f"\n🔮 {product}: High-risk stores (above average stockouts):")
+                    print(f"\n {product}: High-risk stores (above average stockouts):")
                     for store, count in high_risk_stores.items():
                         print(f"  - {store}: {count} stockouts (likely to continue)")
                 else:
-                    print(f"\n🔮 {product}: Stockout patterns are stable across all stores")
+                    print(f"\n {product}: Stockout patterns are stable across all stores")
             else:
                 # Simple trend: compare first half vs second half
                 mid_point = len(self.df) // 2
@@ -146,11 +146,11 @@ class DigitalTwinAnalytics:
                 second_half = self.df[col].iloc[mid_point:].sum()
                 
                 if second_half > first_half * 1.2:
-                    print(f"\n🔮 {product}: Stockouts are increasing (trend: {first_half} → {second_half})")
+                    print(f"\n {product}: Stockouts are increasing (trend: {first_half} → {second_half})")
                 elif first_half > second_half * 1.2:
-                    print(f"\n🔮 {product}: Stockouts are decreasing (trend: {first_half} → {second_half})")
+                    print(f"\n {product}: Stockouts are decreasing (trend: {first_half} → {second_half})")
                 else:
-                    print(f"\n🔮 {product}: Stockout trend is stable")
+                    print(f"\n {product}: Stockout trend is stable")
         
         # Overall prediction
         if 'store_name' in self.df.columns:
@@ -159,7 +159,7 @@ class DigitalTwinAnalytics:
             num_days = self.df['date'].nunique()
             avg_stockouts_per_store_per_day = total_stockouts / (num_stores * num_days)
             
-            print(f"\n🔮 Overall Prediction:")
+            print(f"\n Overall Prediction:")
             print(f"  Average stockouts per store per day: {avg_stockouts_per_store_per_day:.2f}")
             if avg_stockouts_per_store_per_day > 0.3:
                 print("  → High stockout risk - immediate action recommended")
@@ -179,17 +179,17 @@ class DigitalTwinAnalytics:
                         if c.startswith('stockout_') and not c.endswith('_lag1')]
         
         if not stockout_cols:
-            print("\n💡 No stockout data available")
+            print("\n No stockout data available")
             return
         
         if 'store_name' not in self.df.columns:
-            print("\n💡 Store-level recommendations require store_name column")
+            print("\n Store-level recommendations require store_name column")
             return
         
         # Calculate stockout rate per store per product
         store_performance = self.df.groupby('store_name')[stockout_cols].mean()
         
-        print("\n💡 Store Recommendations:")
+        print("\n Store Recommendations:")
         
         for col in stockout_cols:
             product = col.replace('stockout_', '')
@@ -197,7 +197,7 @@ class DigitalTwinAnalytics:
             
             if len(problem_stores) > 0:
                 print(f"\n  Product: {product}")
-                print(f"  ⚠️  Stores needing attention (stockout rate > {threshold:.0%}):")
+                print(f" Stores needing attention (stockout rate > {threshold:.0%}):")
                 for store, rate in problem_stores[col].items():
                     print(f"    - {store}: {rate:.2%} stockout rate")
                     print(f"      → Increase reorder point for {product}")
@@ -210,7 +210,7 @@ class DigitalTwinAnalytics:
         # Overall recommendations
         overall_stockout_rate = self.df[stockout_cols].mean().mean()
         if overall_stockout_rate > threshold:
-            print(f"\n💡 Overall Recommendation:")
+            print(f"\n Overall Recommendation:")
             print(f"  System-wide stockout rate ({overall_stockout_rate:.2%}) exceeds threshold")
             print(f"  → Review inventory policies across all stores")
             print(f"  → Consider increasing base stock levels")
