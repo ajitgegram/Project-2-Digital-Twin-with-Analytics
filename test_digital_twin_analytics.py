@@ -163,7 +163,7 @@ def test_analytics():
         print("  → Recommendation: Increase reorder points or safety stock")
     
     print("\n" + "="*70)
-    print("✓ All tests completed!")
+    print(" All tests completed!")
     print("="*70)
 
 
